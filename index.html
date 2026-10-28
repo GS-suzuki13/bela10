@@ -1,0 +1,526 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bela10 · Beleza a partir de R$ 10</title>
+<meta name="description" content="Loja demonstrativa de cosméticos: catálogo, sacola, frete por CEP, cupom e checkout com Pix.">
+<meta name="theme-color" content="#2b1838">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js"></script>
+<style>
+  :root {
+    --coral: #f0543c;
+    --coral-escuro: #d63e27;
+    --ameixa: #2b1838;
+    --creme: #fff7f2;
+    --pessego: #ffe4d8;
+    --verde: #0f9d74;
+    --cinza: #77697f;
+    --borda: #f2ded4;
+    --card: #ffffff;
+    --sombra: 0 10px 30px -12px rgba(43, 24, 56, .25);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Poppins', system-ui, sans-serif; background: var(--creme); color: var(--ameixa); }
+  a { color: inherit; text-decoration: none; }
+  button, input, select { font: inherit; color: inherit; }
+  .wrap { max-width: 1160px; margin: 0 auto; padding: 0 16px; }
+
+  .topbar { background: var(--ameixa); color: #fff; text-align: center; font-size: 13px; padding: 8px 16px; }
+  .topbar b { color: #ffb4a6; }
+
+  header.site { background: rgba(255, 255, 255, .92); backdrop-filter: blur(8px); border-bottom: 1px solid var(--borda); position: sticky; top: 0; z-index: 10; }
+  header.site .wrap { display: flex; align-items: center; justify-content: space-between; height: 68px; gap: 16px; }
+  .logo { display: inline-flex; align-items: center; gap: 8px; font-weight: 800; font-size: 24px; letter-spacing: -.5px; white-space: nowrap; }
+  .logo .selo-logo { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 12px; background: var(--coral); color: #fff; font-size: 15px; transform: rotate(-6deg); }
+  .busca { flex: 1; max-width: 420px; position: relative; }
+  .busca input { width: 100%; padding: 11px 16px 11px 40px; border: 1px solid var(--borda); border-radius: 999px; background: #fff; font-size: 14px; outline: none; }
+  .busca input:focus { border-color: var(--coral); box-shadow: 0 0 0 4px #ffe1da; }
+  .busca::before { content: '⌕'; position: absolute; left: 15px; top: 50%; transform: translateY(-52%); font-size: 18px; color: var(--cinza); }
+  .btn-sacola { background: var(--ameixa); color: #fff; border: 0; border-radius: 999px; padding: 10px 18px; font-weight: 600; cursor: pointer; white-space: nowrap; display: inline-flex; align-items: center; gap: 8px; }
+  .btn-sacola b { background: var(--coral); border-radius: 999px; min-width: 22px; padding: 0 6px; font-size: 12px; line-height: 22px; }
+  .btn-sacola.pulse { animation: pulse .4s; }
+  @keyframes pulse { 50% { transform: scale(1.08); } }
+
+  .hero { padding: 48px 0 24px; }
+  .hero .wrap { display: grid; grid-template-columns: 1.1fr .9fr; gap: 32px; align-items: center; }
+  .hero .tag { display: inline-block; background: var(--pessego); color: var(--coral-escuro); font-weight: 600; font-size: 13px; padding: 6px 14px; border-radius: 999px; }
+  .hero h1 { margin-top: 14px; font-size: clamp(34px, 5.5vw, 60px); font-weight: 800; line-height: 1.04; letter-spacing: -1.5px; }
+  .hero h1 em { font-style: normal; color: var(--coral); }
+  .hero p { margin-top: 14px; font-size: 17px; color: var(--cinza); max-width: 520px; line-height: 1.6; }
+  .hero .ctas { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 24px; }
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; border: 0; border-radius: 999px; padding: 13px 26px; font-weight: 700; cursor: pointer; transition: transform .15s, background .15s; }
+  .btn:active { transform: scale(.97); }
+  .btn-primario { background: var(--coral); color: #fff; box-shadow: 0 10px 24px -10px var(--coral); }
+  .btn-primario:hover { background: var(--coral-escuro); }
+  .btn-secundario { background: #fff; border: 1px solid var(--borda); }
+  .vitrine { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+  .vitrine div { aspect-ratio: 1; border-radius: 26px; display: grid; place-items: center; font-size: 64px; box-shadow: var(--sombra); }
+  .vitrine div:nth-child(2) { transform: translateY(24px); }
+  .vitrine div:nth-child(3) { transform: translateY(-12px); }
+
+  .vantagens { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin: 40px auto 8px; }
+  .vantagens div { background: var(--card); border: 1px solid var(--borda); border-radius: 18px; padding: 16px; font-size: 13px; color: var(--cinza); }
+  .vantagens strong { display: block; color: var(--ameixa); font-size: 15px; margin-bottom: 2px; }
+
+  .barra-catalogo { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; margin: 36px 0 16px; }
+  h2 { font-size: 28px; letter-spacing: -.5px; }
+  .filtros { display: flex; gap: 8px; flex-wrap: wrap; }
+  .filtros button { border: 1px solid var(--borda); background: #fff; padding: 8px 16px; border-radius: 999px; font-size: 14px; cursor: pointer; }
+  .filtros button.ativo { background: var(--ameixa); color: #fff; border-color: var(--ameixa); }
+  .ordem { border: 1px solid var(--borda); background: #fff; border-radius: 999px; padding: 8px 14px; font-size: 14px; }
+
+  .grade { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 18px; margin-bottom: 64px; }
+  .produto { background: var(--card); border: 1px solid var(--borda); border-radius: 22px; overflow: hidden; display: flex; flex-direction: column; transition: transform .2s, box-shadow .2s; }
+  .produto:hover { transform: translateY(-4px); box-shadow: var(--sombra); }
+  .produto .img { height: 170px; display: grid; place-items: center; font-size: 72px; position: relative; }
+  .selo { position: absolute; top: 12px; left: 12px; background: var(--ameixa); color: #fff; font-size: 11px; font-weight: 600; padding: 4px 10px; border-radius: 999px; }
+  .desconto { position: absolute; top: 12px; right: 12px; background: var(--coral); color: #fff; font-size: 11px; font-weight: 700; padding: 4px 8px; border-radius: 999px; }
+  .produto .info { padding: 16px; display: flex; flex-direction: column; gap: 6px; flex: 1; }
+  .produto .cat { font-size: 11px; color: var(--cinza); text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
+  .produto h3 { font-size: 15px; font-weight: 600; flex: 1; line-height: 1.35; }
+  .preco { font-size: 22px; font-weight: 800; }
+  .preco s { font-size: 13px; color: var(--cinza); font-weight: 400; margin-left: 6px; }
+  .pix-preco { font-size: 12px; color: var(--verde); font-weight: 600; }
+  .produto button { margin-top: 8px; background: var(--creme); color: var(--ameixa); border: 1px solid var(--borda); border-radius: 14px; padding: 11px; font-weight: 600; cursor: pointer; transition: background .15s, color .15s; }
+  .produto button:hover { background: var(--coral); color: #fff; border-color: var(--coral); }
+
+  .overlay { position: fixed; inset: 0; background: rgba(43, 24, 56, .45); opacity: 0; pointer-events: none; transition: opacity .25s; z-index: 20; }
+  .gaveta { position: fixed; top: 0; right: 0; height: 100%; width: min(420px, 100%); background: #fff; z-index: 30; transform: translateX(100%); transition: transform .3s cubic-bezier(.2, .8, .2, 1); display: flex; flex-direction: column; }
+  body.sacola-aberta .overlay, body.checkout-aberto .overlay { opacity: 1; pointer-events: auto; }
+  body.sacola-aberta .gaveta { transform: none; }
+  .gaveta > header { display: flex; justify-content: space-between; align-items: center; padding: 18px 20px; border-bottom: 1px solid var(--borda); }
+  .fechar { border: 0; background: var(--creme); width: 36px; height: 36px; border-radius: 50%; font-size: 20px; cursor: pointer; }
+  .itens { flex: 1; overflow-y: auto; padding: 4px 20px; }
+  .item { display: flex; align-items: center; gap: 12px; padding: 14px 0; border-bottom: 1px solid var(--borda); }
+  .item .emoji { width: 52px; height: 52px; border-radius: 14px; display: grid; place-items: center; font-size: 28px; flex-shrink: 0; }
+  .item .nome { flex: 1; font-size: 14px; line-height: 1.4; }
+  .qtd { display: flex; align-items: center; gap: 8px; font-weight: 600; }
+  .qtd button { width: 28px; height: 28px; border-radius: 50%; border: 1px solid var(--borda); background: #fff; cursor: pointer; }
+  .vazio { color: var(--cinza); text-align: center; padding: 48px 0; }
+  .rodape-gaveta { padding: 16px 20px 20px; border-top: 1px solid var(--borda); background: var(--creme); }
+  .cupom { display: flex; gap: 8px; margin-bottom: 12px; }
+  .cupom input, .campo input { flex: 1; width: 100%; border: 1px solid var(--borda); border-radius: 12px; padding: 10px 12px; background: #fff; outline: none; text-transform: none; }
+  .cupom input:focus, .campo input:focus { border-color: var(--coral); }
+  .cupom button { border: 0; border-radius: 12px; padding: 0 16px; background: var(--ameixa); color: #fff; font-weight: 600; cursor: pointer; }
+  .linha { display: flex; justify-content: space-between; font-size: 14px; margin-bottom: 6px; }
+  .linha.verde { color: var(--verde); }
+  .total { font-size: 19px; font-weight: 800; margin-top: 4px; }
+  .frete-barra { height: 6px; background: #fff; border-radius: 999px; overflow: hidden; margin: 6px 0 4px; }
+  .frete-barra i { display: block; height: 100%; background: var(--coral); transition: width .3s; }
+  .frete-msg { font-size: 12px; color: var(--coral-escuro); margin-bottom: 10px; }
+  .btn-cheio { width: 100%; margin-top: 10px; }
+
+  .checkout { position: fixed; inset: 0; display: grid; place-items: center; padding: 16px; z-index: 35; pointer-events: none; }
+  .checkout .caixa { width: min(560px, 100%); max-height: calc(100vh - 32px); overflow-y: auto; background: #fff; border-radius: 26px; padding: 24px; opacity: 0; transform: translateY(16px) scale(.98); transition: opacity .25s, transform .25s; }
+  body.checkout-aberto .checkout { pointer-events: auto; }
+  body.checkout-aberto .checkout .caixa { opacity: 1; transform: none; }
+  .passos { display: flex; gap: 6px; margin: 16px 0 20px; }
+  .passos span { flex: 1; height: 5px; border-radius: 999px; background: var(--borda); }
+  .passos span.feito { background: var(--coral); }
+  .checkout h3 { font-size: 20px; }
+  .checkout .sub { color: var(--cinza); font-size: 14px; margin-top: 2px; }
+  .campos { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 16px; }
+  .campo { display: flex; flex-direction: column; gap: 6px; font-size: 13px; font-weight: 600; }
+  .campo.cheio { grid-column: 1 / -1; }
+  .campo small { font-weight: 400; color: var(--cinza); }
+  .erro { color: var(--coral-escuro); font-size: 13px; margin-top: 12px; min-height: 18px; }
+  .acoes { display: flex; gap: 10px; margin-top: 18px; }
+  .acoes .btn { flex: 1; }
+  .pagamentos { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 16px; }
+  .pagamentos label { border: 2px solid var(--borda); border-radius: 16px; padding: 14px; cursor: pointer; font-weight: 600; font-size: 14px; }
+  .pagamentos label small { display: block; font-weight: 400; color: var(--cinza); }
+  .pagamentos input { display: none; }
+  .pagamentos input:checked + label { border-color: var(--coral); background: #fff4f1; }
+  .pix-box { margin-top: 16px; text-align: center; background: var(--creme); border-radius: 20px; padding: 18px; }
+  .pix-box .qr { width: 200px; height: 200px; margin: 0 auto; background: #fff; border-radius: 16px; padding: 10px; }
+  .pix-box .qr svg { width: 100%; height: 100%; }
+  .pix-box textarea { width: 100%; margin-top: 12px; border: 1px dashed var(--borda); border-radius: 12px; padding: 10px; font-family: ui-monospace, monospace; font-size: 11px; resize: none; background: #fff; }
+  .aviso-demo { margin-top: 10px; font-size: 12px; color: var(--coral-escuro); font-weight: 600; }
+  .resumo-final { background: var(--creme); border-radius: 18px; padding: 16px; margin-top: 16px; font-size: 14px; line-height: 1.7; }
+  .sucesso { width: 64px; height: 64px; border-radius: 50%; background: #e3f8f0; color: var(--verde); display: grid; place-items: center; font-size: 32px; margin: 4px auto 12px; }
+
+  footer.site { background: var(--ameixa); color: #e8dfee; padding: 32px 0; font-size: 13px; }
+  footer.site .wrap { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+  footer.site a { color: #ffb4a6; font-weight: 600; }
+  .toast { position: fixed; bottom: 24px; left: 50%; transform: translate(-50%, 12px); background: var(--ameixa); color: #fff; padding: 11px 20px; border-radius: 999px; font-size: 14px; opacity: 0; transition: opacity .2s, transform .2s; pointer-events: none; z-index: 50; }
+  .toast.show { opacity: 1; transform: translate(-50%, 0); }
+
+  @media (max-width: 860px) {
+    .hero .wrap { grid-template-columns: 1fr; }
+    .vitrine { max-width: 360px; }
+    .vantagens { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 640px) {
+    header.site .wrap { flex-wrap: wrap; height: auto; padding-top: 12px; padding-bottom: 12px; }
+    .busca { order: 3; flex-basis: 100%; max-width: none; }
+    .campos, .pagamentos { grid-template-columns: 1fr; }
+    .grade { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+    .produto .img { height: 130px; font-size: 56px; }
+    .produto .info { padding: 12px; }
+    .preco { font-size: 18px; }
+  }
+</style>
+</head>
+<body>
+  <div class="topbar">🚚 Frete grátis acima de <b>R$ 79</b> · 5% off no Pix · Cupom <b>BELA10</b> = 10% na primeira compra</div>
+  <header class="site">
+    <div class="wrap">
+      <a class="logo" href="#" aria-label="Bela10, início"><span class="selo-logo">10</span><span>Bela<span style="color:var(--coral)">10</span></span></a>
+      <div class="busca"><input id="busca" type="search" placeholder="Buscar batom, esmalte, sérum..." aria-label="Buscar produtos"></div>
+      <button class="btn-sacola" id="abrirSacola" aria-label="Abrir sacola">🛍️ Sacola <b id="contador">0</b></button>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="wrap">
+      <div>
+        <span class="tag">Novidades toda semana ✨</span>
+        <h1>Beleza a partir de <em>R$&nbsp;10</em>, sem complicação.</h1>
+        <p>Maquiagem, skincare, unhas e cabelo com preço de lojinha e qualidade de vitrine. Monte sua sacola, calcule o frete pelo CEP e pague no Pix.</p>
+        <div class="ctas">
+          <a class="btn btn-primario" href="#produtos">Ver produtos</a>
+          <a class="btn btn-secundario" href="#produtos" data-filtro-rapido="Kits">Kits com desconto</a>
+        </div>
+      </div>
+      <div class="vitrine" aria-hidden="true">
+        <div style="background:linear-gradient(135deg,#ffe0e6,#ffd0c2)">💄</div>
+        <div style="background:linear-gradient(135deg,#e3f6ee,#d7f0ff)">🧴</div>
+        <div style="background:linear-gradient(135deg,#fce1f3,#f3d3ff)">💅</div>
+        <div style="background:linear-gradient(135deg,#fff1c9,#ffe0b8)">🎀</div>
+      </div>
+    </div>
+  </section>
+
+  <main class="wrap">
+    <div class="vantagens">
+      <div><strong>💸 Preço justo</strong>Maioria dos itens a R$ 10</div>
+      <div><strong>⚡ Pix com 5% off</strong>Aprovação na hora</div>
+      <div><strong>📦 Envio em 24h</strong>Postagem em dias úteis</div>
+      <div><strong>🔒 Compra segura</strong>Site com HTTPS</div>
+    </div>
+
+    <div class="barra-catalogo">
+      <h2 id="produtos">Mais vendidos</h2>
+      <select class="ordem" id="ordem" aria-label="Ordenar produtos">
+        <option value="relevancia">Mais vendidos</option>
+        <option value="menor">Menor preço</option>
+        <option value="desconto">Maior desconto</option>
+      </select>
+    </div>
+    <div class="filtros" id="filtros"></div>
+    <div class="grade" id="grade" style="margin-top:18px"></div>
+  </main>
+
+  <footer class="site">
+    <div class="wrap">
+      <span>Bela10 · Loja demonstrativa · Produtos, preços e pagamentos fictícios</span>
+      <span>Desenvolvido por <a href="https://gustavosuzuki.vercel.app">Gustavo Suzuki</a></span>
+    </div>
+  </footer>
+
+  <div class="overlay" id="overlay"></div>
+
+  <aside class="gaveta" aria-label="Sacola de compras">
+    <header>
+      <strong>Sua sacola</strong>
+      <button class="fechar" id="fecharSacola" aria-label="Fechar sacola">×</button>
+    </header>
+    <div class="itens" id="itens"></div>
+    <div class="rodape-gaveta">
+      <form class="cupom" id="formCupom">
+        <input id="cupom" placeholder="Cupom de desconto" aria-label="Cupom de desconto" autocomplete="off">
+        <button>Aplicar</button>
+      </form>
+      <div class="linha"><span>Subtotal</span><span id="subtotal">R$ 0,00</span></div>
+      <div class="linha verde" id="linhaCupom" hidden><span id="nomeCupom">Cupom</span><span id="valorCupom"></span></div>
+      <div class="linha"><span>Frete</span><span id="frete">—</span></div>
+      <div class="frete-barra"><i id="freteBarra" style="width:0"></i></div>
+      <div class="frete-msg" id="freteMsg"></div>
+      <div class="linha total"><span>Total</span><span id="total">R$ 0,00</span></div>
+      <button class="btn btn-primario btn-cheio" id="finalizar">Finalizar compra</button>
+    </div>
+  </aside>
+
+  <div class="checkout" role="dialog" aria-modal="true" aria-label="Finalizar compra">
+    <div class="caixa" id="caixaCheckout"></div>
+  </div>
+
+  <div class="toast" id="toast" role="status"></div>
+
+<script>
+  const FRETE = 12.9, FRETE_GRATIS = 79, DESCONTO_PIX = 0.05;
+  const CUPONS = { BELA10: 0.10 };
+  const CORES = {
+    Maquiagem: 'linear-gradient(135deg,#ffe0e6,#ffd0c2)',
+    Unhas: 'linear-gradient(135deg,#fce1f3,#f3d3ff)',
+    Skincare: 'linear-gradient(135deg,#e3f6ee,#d7f0ff)',
+    Cabelo: 'linear-gradient(135deg,#fff1c9,#ffe0b8)',
+    Acessórios: 'linear-gradient(135deg,#e9e4ff,#ffe1ec)',
+    Kits: 'linear-gradient(135deg,#ffe4d8,#ffd6e7)',
+  };
+  const produtos = [
+    { id: 1, nome: 'Batom Matte Vermelho Paixão', cat: 'Maquiagem', preco: 10, de: 19.9, emoji: '💄', selo: 'Top 1' },
+    { id: 2, nome: 'Máscara de Cílios Volume 3D', cat: 'Maquiagem', preco: 10, de: 24.9, emoji: '👁️' },
+    { id: 3, nome: 'Esmalte Cremoso Rosa Chiclete', cat: 'Unhas', preco: 10, emoji: '💅' },
+    { id: 4, nome: 'Kit 3 Esmaltes Nude', cat: 'Kits', preco: 25, de: 30, emoji: '💅' },
+    { id: 5, nome: 'Sérum Facial Vitamina C', cat: 'Skincare', preco: 10, de: 29.9, emoji: '🧴', selo: 'Novo' },
+    { id: 6, nome: 'Máscara Facial de Argila', cat: 'Skincare', preco: 10, emoji: '🧖‍♀️' },
+    { id: 7, nome: 'Hidratante Labial Morango', cat: 'Skincare', preco: 10, emoji: '🍓' },
+    { id: 8, nome: 'Paleta de Sombras 9 Cores', cat: 'Maquiagem', preco: 10, de: 34.9, emoji: '🎨', selo: 'Top 3' },
+    { id: 9, nome: 'Óleo Capilar Reparador', cat: 'Cabelo', preco: 10, emoji: '💧' },
+    { id: 10, nome: 'Kit Piranhas de Cabelo (4 un.)', cat: 'Kits', preco: 10, emoji: '🎀' },
+    { id: 11, nome: 'Esponja de Maquiagem Gota', cat: 'Acessórios', preco: 10, emoji: '🥚' },
+    { id: 12, nome: 'Kit 5 Pincéis de Maquiagem', cat: 'Kits', preco: 10, de: 39.9, emoji: '🖌️', selo: 'Top 2' },
+  ];
+
+  const brl = v => v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+  const $ = id => document.getElementById(id);
+  const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const ler = (k, padrao) => { try { return JSON.parse(localStorage.getItem(k)) ?? padrao; } catch (e) { return padrao; } };
+  const gravar = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} };
+
+  let sacola = ler('bela10-sacola', {});
+  let cupom = ler('bela10-cupom', null);
+  let filtro = 'Todos', termo = '', ordem = 'relevancia';
+  let pedido = { passo: 1, nome: '', whats: '', cep: '', rua: '', numero: '', bairro: '', cidade: '', uf: '', pagamento: 'pix' };
+
+  // ---------- catálogo ----------
+  function renderFiltros() {
+    const cats = ['Todos', ...new Set(produtos.map(p => p.cat))];
+    $('filtros').innerHTML = cats.map(c => `<button class="${c === filtro ? 'ativo' : ''}" data-cat="${c}">${c}</button>`).join('');
+  }
+
+  function renderGrade() {
+    let lista = produtos.filter(p => (filtro === 'Todos' || p.cat === filtro) && p.nome.toLowerCase().includes(termo));
+    if (ordem === 'menor') lista = [...lista].sort((a, b) => a.preco - b.preco);
+    if (ordem === 'desconto') lista = [...lista].sort((a, b) => (b.de ? 1 - b.preco / b.de : 0) - (a.de ? 1 - a.preco / a.de : 0));
+    $('grade').innerHTML = lista.length ? lista.map(p => `
+      <article class="produto">
+        <div class="img" style="background:${CORES[p.cat]}">
+          ${p.selo ? `<span class="selo">${p.selo}</span>` : ''}
+          ${p.de ? `<span class="desconto">-${Math.round((1 - p.preco / p.de) * 100)}%</span>` : ''}
+          ${p.emoji}
+        </div>
+        <div class="info">
+          <span class="cat">${p.cat}</span>
+          <h3>${p.nome}</h3>
+          <div class="preco">${brl(p.preco)}${p.de ? `<s>${brl(p.de)}</s>` : ''}</div>
+          <span class="pix-preco">${brl(p.preco * (1 - DESCONTO_PIX))} no Pix</span>
+          <button data-add="${p.id}">Adicionar à sacola</button>
+        </div>
+      </article>`).join('') : '<p class="vazio" style="grid-column:1/-1">Nenhum produto encontrado.</p>';
+  }
+
+  // ---------- sacola ----------
+  function totais() {
+    const ids = Object.keys(sacola);
+    const subtotal = ids.reduce((s, id) => s + sacola[id] * produtos.find(p => p.id == id).preco, 0);
+    const desconto = cupom ? subtotal * CUPONS[cupom] : 0;
+    const base = subtotal - desconto;
+    const frete = subtotal === 0 || base >= FRETE_GRATIS ? 0 : FRETE;
+    return { ids, subtotal, desconto, base, frete, total: base + frete, qtd: ids.reduce((s, id) => s + sacola[id], 0) };
+  }
+
+  function renderSacola() {
+    const t = totais();
+    $('contador').textContent = t.qtd;
+    $('itens').innerHTML = t.ids.length ? t.ids.map(id => {
+      const p = produtos.find(x => x.id == id);
+      return `<div class="item">
+        <span class="emoji" style="background:${CORES[p.cat]}">${p.emoji}</span>
+        <span class="nome">${p.nome}<br><b>${brl(p.preco * sacola[id])}</b></span>
+        <span class="qtd"><button data-menos="${id}" aria-label="Diminuir">−</button>${sacola[id]}<button data-mais="${id}" aria-label="Aumentar">+</button></span>
+      </div>`;
+    }).join('') : '<p class="vazio">Sua sacola está vazia 🛍️</p>';
+    $('subtotal').textContent = brl(t.subtotal);
+    $('linhaCupom').hidden = !cupom || !t.subtotal;
+    $('nomeCupom').textContent = `Cupom ${cupom}`;
+    $('valorCupom').textContent = `− ${brl(t.desconto)}`;
+    $('frete').textContent = t.subtotal === 0 ? '—' : t.frete ? brl(t.frete) : 'Grátis 🎉';
+    $('freteBarra').style.width = `${Math.min(100, (t.base / FRETE_GRATIS) * 100)}%`;
+    $('freteMsg').textContent = t.subtotal > 0 && t.base < FRETE_GRATIS ? `Faltam ${brl(FRETE_GRATIS - t.base)} para o frete grátis!` : '';
+    $('total').textContent = brl(t.total);
+  }
+
+  function toast(msg) {
+    const el = $('toast'); el.textContent = msg; el.classList.add('show');
+    clearTimeout(el._h); el._h = setTimeout(() => el.classList.remove('show'), 1800);
+  }
+  const abrirSacola = v => document.body.classList.toggle('sacola-aberta', v);
+  const abrirCheckout = v => { document.body.classList.toggle('checkout-aberto', v); if (v) renderCheckout(); };
+
+  // ---------- Pix (BR Code / EMV) ----------
+  // Chave fictícia em domínio .invalid: o QR é lido pelo app do banco, mas não há para quem pagar.
+  const PIX_CHAVE = 'pix@bela10.invalid';
+  const campo = (id, valor) => id + String(valor.length).padStart(2, '0') + valor;
+  function crc16(str) {
+    let crc = 0xffff;
+    for (let i = 0; i < str.length; i++) {
+      crc ^= str.charCodeAt(i) << 8;
+      for (let j = 0; j < 8; j++) crc = crc & 0x8000 ? (crc << 1) ^ 0x1021 : crc << 1;
+    }
+    return (crc & 0xffff).toString(16).toUpperCase().padStart(4, '0');
+  }
+  function brCode(valor, txid) {
+    const payload = campo('00', '01')
+      + campo('26', campo('00', 'br.gov.bcb.pix') + campo('01', PIX_CHAVE))
+      + campo('52', '0000') + campo('53', '986') + campo('54', valor.toFixed(2)) + campo('58', 'BR')
+      + campo('59', 'BELA10 DEMO') + campo('60', 'BLUMENAU') + campo('62', campo('05', txid)) + '6304';
+    return payload + crc16(payload);
+  }
+
+  // ---------- checkout ----------
+  const totalPedido = () => { const t = totais(); return pedido.pagamento === 'pix' ? t.total * (1 - DESCONTO_PIX) : t.total; };
+  const passos = n => `<div class="passos">${[1, 2, 3, 4].map(i => `<span class="${i <= n ? 'feito' : ''}"></span>`).join('')}</div>`;
+
+  function renderCheckout() {
+    const c = $('caixaCheckout');
+    const topo = (titulo, sub) => `<div style="display:flex;justify-content:space-between;gap:12px"><div><h3>${titulo}</h3><p class="sub">${sub}</p></div><button class="fechar" data-fechar-checkout aria-label="Fechar">×</button></div>${passos(pedido.passo)}`;
+
+    if (pedido.passo === 1) {
+      c.innerHTML = topo('Seus dados', 'Para avisarmos sobre o pedido.') + `
+        <div class="campos">
+          <label class="campo cheio">Nome completo<input id="fNome" value="${esc(pedido.nome)}" autocomplete="name"></label>
+          <label class="campo cheio">WhatsApp<input id="fWhats" value="${esc(pedido.whats)}" inputmode="tel" placeholder="(47) 99999-9999"></label>
+        </div>
+        <p class="erro" id="erro"></p>
+        <div class="acoes"><button class="btn btn-primario" data-avancar>Continuar</button></div>`;
+    } else if (pedido.passo === 2) {
+      c.innerHTML = topo('Entrega', 'Digite o CEP: o endereço é preenchido sozinho (ViaCEP).') + `
+        <div class="campos">
+          <label class="campo">CEP<input id="fCep" value="${esc(pedido.cep)}" inputmode="numeric" placeholder="89010-000" maxlength="9"></label>
+          <label class="campo">Número<input id="fNumero" value="${esc(pedido.numero)}"></label>
+          <label class="campo cheio">Rua<input id="fRua" value="${esc(pedido.rua)}"></label>
+          <label class="campo">Bairro<input id="fBairro" value="${esc(pedido.bairro)}"></label>
+          <label class="campo">Cidade / UF<input id="fCidade" value="${esc(pedido.cidade ? `${pedido.cidade} / ${pedido.uf}` : '')}" readonly><small>Vem do CEP</small></label>
+        </div>
+        <p class="erro" id="erro"></p>
+        <div class="acoes"><button class="btn btn-secundario" data-voltar>Voltar</button><button class="btn btn-primario" data-avancar>Continuar</button></div>`;
+    } else if (pedido.passo === 3) {
+      const t = totais();
+      const pix = pedido.pagamento === 'pix';
+      const txid = 'BELA10' + Date.now().toString(36).toUpperCase();
+      const codigo = pix ? brCode(totalPedido(), txid) : '';
+      c.innerHTML = topo('Pagamento', `Total: <b>${brl(totalPedido())}</b>${pix ? ` <span style="color:var(--verde)">(5% off no Pix)</span>` : ''}`) + `
+        <div class="pagamentos">
+          <input type="radio" name="pg" id="pgPix" value="pix" ${pix ? 'checked' : ''}><label for="pgPix">⚡ Pix<small>${brl(t.total * (1 - DESCONTO_PIX))}</small></label>
+          <input type="radio" name="pg" id="pgCartao" value="cartao" ${pix ? '' : 'checked'}><label for="pgCartao">💳 Cartão<small>${brl(t.total)} em até 3x</small></label>
+        </div>
+        ${pix ? `<div class="pix-box">
+          <div class="qr" id="qrPix"></div>
+          <textarea rows="3" readonly id="pixCodigo" aria-label="Pix copia e cola">${codigo}</textarea>
+          <button class="btn btn-secundario" data-copiar style="margin-top:8px">Copiar código Pix</button>
+          <p class="aviso-demo">Pix de demonstração: a chave não existe, não tente pagar.</p>
+        </div>` : `<p class="sub" style="margin-top:14px">Numa loja real, aqui entraria o formulário seguro do gateway (Mercado Pago, Stripe, Pagar.me...).</p>`}
+        <div class="acoes"><button class="btn btn-secundario" data-voltar>Voltar</button><button class="btn btn-primario" data-avancar>${pix ? 'Já paguei (simular)' : 'Pagar (simular)'}</button></div>`;
+      if (pix && window.qrcode) {
+        const qr = qrcode(0, 'M'); qr.addData(codigo); qr.make();
+        $('qrPix').innerHTML = qr.createSvgTag({ cellSize: 4, margin: 0, scalable: true });
+      }
+    } else {
+      const t = totais();
+      const numero = pedido.numeroPedido;
+      const linhas = t.ids.map(id => { const p = produtos.find(x => x.id == id); return `${sacola[id]}x ${p.nome}`; });
+      const msg = `Olá! Fiz o pedido #${numero} na Bela10:\n${linhas.join('\n')}\nTotal: ${brl(pedido.totalPago)} (${pedido.pagamento === 'pix' ? 'Pix' : 'Cartão'})\nEntrega: ${pedido.rua}, ${pedido.numero} - ${pedido.bairro}, ${pedido.cidade}/${pedido.uf}`;
+      c.innerHTML = topo('Pedido confirmado!', `Pedido #${numero}`) + `
+        <div class="sucesso">✓</div>
+        <p style="text-align:center">Obrigada, ${esc(pedido.nome.split(' ')[0])}! Separamos seus produtos e enviamos em até 24h úteis.</p>
+        <div class="resumo-final">${linhas.map(esc).join('<br>')}<br><b>Total pago: ${brl(pedido.totalPago)}</b><br>Entrega: ${esc(pedido.rua)}, ${esc(pedido.numero)} - ${esc(pedido.bairro)}, ${esc(pedido.cidade)}/${esc(pedido.uf)}</div>
+        <div class="acoes">
+          <a class="btn btn-secundario" target="_blank" rel="noopener" href="https://wa.me/?text=${encodeURIComponent(msg)}">Enviar resumo no WhatsApp</a>
+          <button class="btn btn-primario" data-nova-compra>Nova compra</button>
+        </div>`;
+    }
+  }
+
+  function erro(msg) { const el = $('erro'); if (el) el.textContent = msg; return false; }
+
+  async function buscarCep(cep) {
+    try {
+      const res = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
+      const d = await res.json();
+      if (d.erro) return erro('CEP não encontrado.');
+      Object.assign(pedido, { cep: cep.replace(/(\d{5})(\d{3})/, '$1-$2'), rua: d.logradouro || pedido.rua, bairro: d.bairro || pedido.bairro, cidade: d.localidade, uf: d.uf });
+      const numero = $('fNumero')?.value || '';
+      pedido.numero = numero;
+      renderCheckout();
+      $('fNumero')?.focus();
+    } catch (e) {
+      erro('Não foi possível consultar o CEP agora.');
+    }
+  }
+
+  function avancar() {
+    if (pedido.passo === 1) {
+      pedido.nome = $('fNome').value.trim(); pedido.whats = $('fWhats').value.trim();
+      if (pedido.nome.split(' ').length < 2) return erro('Informe nome e sobrenome.');
+      if (pedido.whats.replace(/\D/g, '').length < 10) return erro('Informe um WhatsApp com DDD.');
+    } else if (pedido.passo === 2) {
+      Object.assign(pedido, { numero: $('fNumero').value.trim(), rua: $('fRua').value.trim(), bairro: $('fBairro').value.trim() });
+      if (!pedido.cidade) return erro('Digite um CEP válido para calcular a entrega.');
+      if (!pedido.rua || !pedido.numero) return erro('Preencha rua e número.');
+    } else if (pedido.passo === 3) {
+      pedido.totalPago = totalPedido();
+      pedido.numeroPedido = String(Math.floor(100000 + Math.random() * 900000));
+    }
+    pedido.passo++;
+    renderCheckout();
+  }
+
+  // ---------- eventos ----------
+  document.addEventListener('click', e => {
+    const alvo = e.target.closest('button, a, input') || e.target;
+    const d = alvo.dataset || {};
+    if (d.cat) { filtro = d.cat; renderFiltros(); renderGrade(); }
+    if (d.filtroRapido) { filtro = d.filtroRapido; renderFiltros(); renderGrade(); }
+    if (d.add) {
+      sacola[d.add] = (sacola[d.add] || 0) + 1; gravar('bela10-sacola', sacola); renderSacola();
+      toast('Adicionado à sacola ✓'); $('abrirSacola').classList.remove('pulse'); void $('abrirSacola').offsetWidth; $('abrirSacola').classList.add('pulse');
+    }
+    if (d.mais) { sacola[d.mais]++; gravar('bela10-sacola', sacola); renderSacola(); }
+    if (d.menos) { if (--sacola[d.menos] <= 0) delete sacola[d.menos]; gravar('bela10-sacola', sacola); renderSacola(); }
+    if ('avancar' in d) avancar();
+    if ('voltar' in d) { pedido.passo--; renderCheckout(); }
+    if ('fecharCheckout' in d) abrirCheckout(false);
+    if ('copiar' in d) { navigator.clipboard?.writeText($('pixCodigo').value).then(() => toast('Código Pix copiado')); }
+    if ('novaCompra' in d) { sacola = {}; cupom = null; gravar('bela10-sacola', sacola); gravar('bela10-cupom', null); pedido.passo = 1; abrirCheckout(false); renderSacola(); }
+    if (alvo.name === 'pg') { pedido.pagamento = alvo.value; renderCheckout(); }
+  });
+  document.addEventListener('input', e => {
+    if (e.target.id === 'fCep') {
+      const dig = e.target.value.replace(/\D/g, '').slice(0, 8);
+      e.target.value = dig.replace(/(\d{5})(\d)/, '$1-$2');
+      if (dig.length === 8) buscarCep(dig);
+    }
+  });
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') { abrirCheckout(false); abrirSacola(false); }
+    if (e.key === 'Enter' && document.body.classList.contains('checkout-aberto') && e.target.tagName === 'INPUT') avancar();
+  });
+  $('busca').addEventListener('input', e => { termo = e.target.value.toLowerCase(); renderGrade(); });
+  $('ordem').addEventListener('change', e => { ordem = e.target.value; renderGrade(); });
+  $('abrirSacola').onclick = () => abrirSacola(true);
+  $('fecharSacola').onclick = () => abrirSacola(false);
+  $('overlay').onclick = () => { abrirSacola(false); abrirCheckout(false); };
+  $('formCupom').onsubmit = e => {
+    e.preventDefault();
+    const codigo = $('cupom').value.trim().toUpperCase();
+    if (!CUPONS[codigo]) return toast('Cupom inválido');
+    cupom = codigo; gravar('bela10-cupom', cupom); renderSacola(); toast(`Cupom ${codigo} aplicado: ${CUPONS[codigo] * 100}% off`);
+    $('cupom').value = '';
+  };
+  $('finalizar').onclick = () => {
+    if (!Object.keys(sacola).length) return toast('Adicione um produto primeiro');
+    abrirSacola(false); pedido.passo = 1; abrirCheckout(true);
+  };
+
+  renderFiltros(); renderGrade(); renderSacola();
+</script>
+</body>
+</html>
