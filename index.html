@@ -279,7 +279,9 @@
     { id: 12, nome: 'Kit 5 Pincéis de Maquiagem', cat: 'Kits', preco: 10, de: 39.9, emoji: '🖌️', selo: 'Top 2' },
   ];
 
-  const brl = v => v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+  // Centavos arredondados com uma folga: 81,225 vira 81,23 (sem ela, o ponto flutuante dá 81,22).
+  const arred = v => Math.round(v * 100 + 1e-6) / 100;
+  const brl = v => arred(v).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
   const $ = id => document.getElementById(id);
   const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
   const ler = (k, padrao) => { try { return JSON.parse(localStorage.getItem(k)) ?? padrao; } catch (e) { return padrao; } };
@@ -321,7 +323,7 @@
   function totais() {
     const ids = Object.keys(sacola);
     const subtotal = ids.reduce((s, id) => s + sacola[id] * produtos.find(p => p.id == id).preco, 0);
-    const desconto = cupom ? subtotal * CUPONS[cupom] : 0;
+    const desconto = cupom ? arred(subtotal * CUPONS[cupom]) : 0;
     const base = subtotal - desconto;
     const frete = subtotal === 0 || base >= FRETE_GRATIS ? 0 : FRETE;
     return { ids, subtotal, desconto, base, frete, total: base + frete, qtd: ids.reduce((s, id) => s + sacola[id], 0) };
@@ -376,7 +378,7 @@
   }
 
   // ---------- checkout ----------
-  const totalPedido = () => { const t = totais(); return pedido.pagamento === 'pix' ? t.total * (1 - DESCONTO_PIX) : t.total; };
+  const totalPedido = () => { const t = totais(); return pedido.pagamento === 'pix' ? arred(t.total * (1 - DESCONTO_PIX)) : t.total; };
   const passos = n => `<div class="passos">${[1, 2, 3, 4].map(i => `<span class="${i <= n ? 'feito' : ''}"></span>`).join('')}</div>`;
 
   function renderCheckout() {
